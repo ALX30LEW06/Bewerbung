@@ -111,24 +111,24 @@ CSV Export
         <article class="card">
           <h3 class="card__title">Core-Klassen</h3>
           <ul class="list">
-            <li><strong>App.java:</strong> CLI-Anwendung (automatischer CSV-Download aller Metriken)</li>
-            <li><strong>GuiApp.java:</strong> Swing GUI mit JCheckBox[], JLabel[], JTable, DatePicker</li>
-            <li><strong>Config.java:</strong> Zentrale Konfiguration (BASE_URL, METRIC_IDS[], HEADERS[])</li>
-            <li><strong>HttpUtils.java:</strong> HTTP GET mit User-Agent, Timeout & Error Handling</li>
-            <li><strong>JsonParser.java:</strong> Multi-Format Parser (Array & Grafana Frames)</li>
-            <li><strong>CsvWriter.java:</strong> BufferedWriter mit CSV-Escaping & dd.MM.yyyy Format</li>
-            <li><strong>DateUtils.java:</strong> LocalDate Parsing & Formatierung</li>
+            <li><strong>App.java:</strong> CLI-Anwendung (CSV-Download)</li>
+            <li><strong>GuiApp.java:</strong> Swing GUI mit Checkboxen & Tabelle</li>
+            <li><strong>Config.java:</strong> Zentrale Konfiguration</li>
+            <li><strong>HttpUtils.java:</strong> HTTP GET mit Error Handling</li>
+            <li><strong>JsonParser.java:</strong> Multi-Format Parser</li>
+            <li><strong>CsvWriter.java:</strong> CSV Export mit Escaping</li>
+            <li><strong>DateUtils.java:</strong> Datum Parsing & Format</li>
           </ul>
         </article>
         <article class="card">
           <h3 class="card__title">API-Integration</h3>
           <ul class="list">
-            <li><strong>Endpoint:</strong> ti-lage.prod.ccs.gematik.solutions/api/datasources/proxy/uid/...</li>
-            <li><strong>Metrik-IDs:</strong> 1000-1026 (15 ausgewählte Kennzahlen)</li>
-            <li><strong>Format A:</strong> [{time: "...", Anzahl: 123}, ...] (JSON Array)</li>
-            <li><strong>Format B:</strong> Grafana Frames mit nested structure (Fallback)</li>
-            <li><strong>User-Agent:</strong> "Mozilla/5.0 (Java)" für API-Kompatibilität</li>
-            <li><strong>Cutoff:</strong> Nur Daten ab 22.02.2022 (CONFIG.CUTOFF)</li>
+            <li><strong>Endpoint:</strong> Gematik TI-Lage API</li>
+            <li><strong>Metrik-IDs:</strong> 1000-1026 (15 Kennzahlen)</li>
+            <li><strong>Format A:</strong> JSON Array</li>
+            <li><strong>Format B:</strong> Grafana Frames (Fallback)</li>
+            <li><strong>User-Agent:</strong> Mozilla/5.0 (Java)</li>
+            <li><strong>Cutoff:</strong> Daten ab 22.02.2022</li>
           </ul>
         </article>
       </div>
@@ -140,9 +140,13 @@ CSV Export
         <article class="card">
           <h3 class="card__title">Swing-Komponenten</h3>
           <ul class="list">
-            <li><strong>GridBagLayout:</strong> Kompakte Zweispalten-Ansicht für 15 Checkboxen + Werte</li>
-            <li><strong>JLabel[] metricValueLabels:</strong> Zeigt aktuelle Werte oder "Lädt..." / "n/a"</li>
-            <li><strong>JButton fromBtn/toBtn:</strong> DatePicker für Start-/Enddatum</li>
+            <li><strong>GridBagLayout:</strong> Zweispalten-Ansicht</li>
+            <li><strong>JLabel[]:</strong> Zeigt Werte oder "Lädt..."</li>
+            <li><strong>JButton:</strong> DatePicker für Datum</li>
+            <li><strong>JScrollPane:</strong> Scrollbar bei vielen Metriken</li>
+            <li><strong>JTable:</strong> Vorschau der CSV-Daten</li>
+          </ul>
+        </article>
             <li><strong>DefaultTableModel:</strong> Dynamische Tabelle mit Datum + gewählte Metriken</li>
             <li><strong>JScrollPane:</strong> Scrollbarer Bereich für alle Kennzahlen</li>
             <li><strong>Tooltips:</strong> Vollständige Kennzahl-Namen bei Hover (> 34 Zeichen gekürzt)</li>

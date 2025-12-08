@@ -97,26 +97,19 @@
           <h3 class="card__title">Datenbank-Schema</h3>
           <pre class="architecture-diagram">
 fragen
-  ├─ id (PK, INT)
-  ├─ text (VARCHAR) – Fragetext
-  ├─ type (VARCHAR) – Einfachauswahl/Dropdown/Text
-  ├─ optionen (TEXT) – JSON/Semikolon-getrennt
-  └─ anzeigebedingung (TEXT) – z.B. "F2=Ja"
+  ├─ id, text, type
+  ├─ optionen (JSON)
+  └─ anzeigebedingung
 
 antworten
-  ├─ frage_id (FK → fragen)
-  ├─ gruppe_id (VARCHAR) – Token (nullable)
-  ├─ antwort (TEXT) – Nutzerantwort
-  ├─ zeitstempel (DATETIME)
-  ├─ einreichung_id (UUID) – Gruppierung
-  └─ fragebogen_id (INT) – Fragebogen-Referenz
+  ├─ frage_id, gruppe_id
+  ├─ antwort, zeitstempel
+  └─ einreichung_id (UUID)
 
 fragebogen_status
-  ├─ id (PK)
-  ├─ gruppen_token (VARCHAR, UNIQUE)
-  ├─ email (VARCHAR) – Optional
-  ├─ genutzt (BOOLEAN) – Einmal-Nutzung
-  └─ zeitpunkt (DATETIME) – Verwendungszeitpunkt
+  ├─ gruppen_token
+  ├─ email, genutzt
+  └─ zeitpunkt
           </pre>
         </article>
       </div>
@@ -157,25 +150,23 @@ fragebogen_status
           <h3 class="card__title">Beispiel-Syntax</h3>
           <pre class="architecture-diagram">
 Frage 1: "Sind Sie Patient?"
-  → Optionen: Ja / Nein
+  → Ja / Nein
 
-Frage 2: "Wie zufrieden sind Sie?"
-  → Anzeigebedingung: F1=Ja
-  → Wird nur gezeigt wenn F1 = "Ja"
+Frage 2: "Wie zufrieden?"
+  → Bedingung: F1=Ja
 
-Frage 3: "Warum nicht zufrieden?"
-  → Anzeigebedingung: F2=Unzufrieden
-  → Wird nur bei negativer Bewertung gezeigt
+Frage 3: "Warum nicht?"
+  → Bedingung: F2=Unzufrieden
           </pre>
         </article>
         <article class="card">
           <h3 class="card__title">Implementierung</h3>
           <ul class="list">
-            <li><strong>Parser:</strong> Regex /F(\d+)\s*=\s*(.+)/ extrahiert Bedingungen</li>
-            <li><strong>Oder-Verknüpfung:</strong> "F2=Ja oder Nein" für mehrere Werte</li>
-            <li><strong>Runtime-Check:</strong> Bei jedem "Weiter"-Klick neue Frage evaluieren</li>
-            <li><strong>Fallback:</strong> Leere Bedingung = Frage wird immer angezeigt</li>
-            <li><strong>Abschluss:</strong> Keine weiteren Fragen → API-Call zum Speichern</li>
+            <li><strong>Parser:</strong> Regex extrahiert Bedingungen</li>
+            <li><strong>Oder-Verknüpfung:</strong> Mehrere Werte möglich</li>
+            <li><strong>Runtime-Check:</strong> Bei jedem Klick</li>
+            <li><strong>Fallback:</strong> Leer = immer anzeigen</li>
+            <li><strong>Abschluss:</strong> Keine Fragen → Speichern</li>
           </ul>
         </article>
       </div>
