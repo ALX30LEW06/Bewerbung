@@ -1,0 +1,187 @@
+/* Lebenslauf-spezifische Styles */
+
+.cv-main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.cv-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cv-header h1 {
+  margin: 0 0 1rem 0;
+  color: var(--link-color);
+}
+
+.cv-info {
+  margin-top: 1rem;
+}
+
+.cv-info p {
+  margin: 0.3rem 0;
+}
+
+.cv-section {
+  margin-bottom: 2rem;
+}
+
+.cv-section h2 {
+  color: var(--link-color);
+  border-bottom: 2px solid var(--link-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Timeline Styles */
+.cv-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.cv-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--link-color);
+  opacity: 0.3;
+}
+
+.cv-timeline__item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(94, 234, 212, 0.1);
+}
+
+.cv-timeline__item:last-child {
+  border-bottom: none;
+}
+
+.cv-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0.25rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--link-color);
+  border: 3px solid var(--bg);
+  z-index: 1;
+}
+
+.cv-timeline__date {
+  font-size: 0.9rem;
+  color: var(--link-color);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.cv-timeline__content h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.cv-timeline__role {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  color: var(--text);
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.cv-timeline__content ul {
+  margin: 0.75rem 0 0 0;
+  padding-left: 1.5rem;
+}
+
+.cv-timeline__content li {
+  margin: 0.4rem 0;
+  line-height: 1.5;
+}
+
+/* Education Section */
+.cv-education {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cv-education__item h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.cv-education__org {
+  margin: 0;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.cv-education__date {
+  margin: 0.25rem 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--link-color);
+}
+
+.cv-education__item ul {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.5rem;
+}
+
+.cv-education__item li {
+  margin: 0.3rem 0;
+}
+
+/* Skills Section */
+.cv-skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.cv-skills__category h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--link-color);
+}
+
+.cv-skills__category ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.cv-skills__category li {
+  margin: 0.4rem 0;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .cv-main {
+    padding: 12px;
+    margin: 12px;
+  }
+
+  .cv-timeline {
+    padding-left: 1.5rem;
+  }
+
+  .cv-timeline__item::before {
+    left: -1.5rem;
+  }
+
+  .cv-skills {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

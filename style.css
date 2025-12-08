@@ -1,0 +1,232 @@
+body { font-family: Arial, sans-serif; margin: 0; }
+header { background:var(--header-bg, #2c3e50); color:var(--header-text, #fff); padding:20px; text-align:center; }
+header h1 { margin:0; }
+nav { margin-top:10px; }
+nav a { color:var(--link-color, #5eead4); margin:0 10px; text-decoration:none; font-weight:bold; }
+nav a:hover { text-decoration:underline; }
+main { max-width:900px; margin:20px auto; padding:20px; }
+.card { background:var(--card-bg, #ffffff); padding:20px; margin:20px 0; border-radius:8px;
+                box-shadow:0 2px 5px rgba(0,0,0,0.08); }
+.btn { display:inline-block; padding:10px 16px; background:var(--btn-bg, #5eead4); color:var(--btn-text, #0b0c10);
+                 text-decoration:none; border-radius:8px; font-weight:bold; }
+
+/* Small responsive tweak */
+@media (max-width:600px) {
+	main { padding:12px; margin:12px; }
+}
+/* Project link styles: no underline, subtle hover highlight */
+.project-link {
+	text-decoration: none;
+	color: inherit;
+	transition: color 150ms ease, text-shadow 150ms ease;
+	cursor: pointer;
+}
+.project-link:hover {
+  color: var(--link-color);
+  text-shadow: 0 0 8px rgba(94,234,212,0.6);
+}
+
+/* Improve list spacing inside cards (projects, education, etc.) */
+.card ul { padding-left: 1.25rem; margin: 0.6rem 0 1rem 0; }
+.card ul li { margin: 0.45rem 0; line-height: 1.45; }
+
+/* Specific tweak for project list id (keeps previous behavior) */
+#project-list { padding-left: 1.2rem; }
+
+/* Links: use text color by default and only highlight on hover */
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--link-color); text-shadow: 0 0 6px rgba(123,217,209,0.35); }
+
+
+/* Theme variables (light default, overridden by [data-theme="dark"]) */
+:root {
+  --bg: #ffffff;
+  --text: #0d0d0d;
+  --header-bg: #2c3e50;
+  --header-text: #ffffff;
+  --card-bg: #ffffff;
+  --btn-bg: #5eead4;
+  --btn-text: #0b0c10;
+  --link-color: #5eead4;
+}
+
+[data-theme="dark"] {
+  --bg: #0d0d0d;
+  --text: #ffffff;
+  --header-bg: #121212;
+  --header-text: #ffffff;
+  --card-bg: #121212;
+  --btn-bg: #4a90e2;
+  --btn-text: #ffffff;
+  --link-color: #7bd9d1;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+  margin-left: 10px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ddd;
+  border-radius: 34px;
+  transition: .3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "🌙";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  transition: .3s;
+  font-size: 14px;
+}
+
+input:checked + .slider {
+  background-color: #4a90e2;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+  content: "☀️";
+}
+/* Sidebar Styles */
+.sidebar {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+}
+
+.sidebar__section {
+  margin-bottom: 2rem;
+}
+
+.sidebar__title {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  color: var(--link-color);
+  font-weight: 600;
+}
+
+/* Timeline Styles */
+.timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--link-color);
+  opacity: 0.3;
+}
+
+.timeline__item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(94, 234, 212, 0.1);
+}
+
+.timeline__item:last-child {
+  border-bottom: none;
+}
+
+.timeline__item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--link-color);
+  border: 2px solid var(--bg);
+  z-index: 1;
+}
+
+.timeline__date {
+  font-size: 0.75rem;
+  color: var(--link-color);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.5px;
+}
+
+.timeline__content h4 {
+  margin: 0 0 0.15rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.timeline__role {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: var(--text);
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.timeline__details {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.8rem;
+}
+
+.timeline__details li {
+  margin: 0.2rem 0;
+  line-height: 1.3;
+}
+
+/* Tech Tags */
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  background: var(--link-color);
+  color: var(--btn-text);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .tech-tag {
+  background: rgba(94, 234, 212, 0.2);
+  color: var(--link-color);
+}
+
+.main-content {
+  min-width: 0;
+}

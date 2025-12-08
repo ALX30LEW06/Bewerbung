@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Rezept Kennzahlen – Java GUI | Justin Lewczuk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="projects.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__brand">Justin Lewczuk</div>
+  <nav class="site-header__nav">
+    <a href="../index.html">Über mich</a>
+    <a href="../index.html#projects">Projekte</a>
+    <a href="../index.html#contact">Kontakt</a>
+    <a href="#" class="is-active">E-Rezept Kennzahlen</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <div class="hero__eyebrow">Projekt · Java · Desktop</div>
+        <h1 class="hero__title">E-Rezept Kennzahlen</h1>
+        <p class="hero__subtitle">
+          Schlanke Swing-GUI, die Kennzahlen der Gematik-API live lädt, filtert und als CSV exportiert – komplett offline lauffähig dank gebündeltem Java-Runtime.
+        </p>
+        <div class="hero__badges">
+          <div class="badge"><span class="badge-dot"></span> Java 23 · Swing</div>
+          <div class="badge">HTTP/JSON · org.json</div>
+          <div class="badge">CSV-Export</div>
+          <div class="badge">jpackage · jlink</div>
+        </div>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#" target="_blank" rel="noreferrer"><span>Download (7z)</span> ↗</a>
+          <a class="btn btn--ghost" href="#" target="_blank" rel="noreferrer"><span>Code ansehen</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Projektüberblick</h2>
+      <p class="section__lead">
+        Eine eigenständige Desktop-App, die 15 E-Rezept-Kennzahlen aus der Gematik-API live abruft, mit Datum filtert und als CSV exportiert. Das Runtime ist eingebettet – Empfänger brauchen keine Java-Installation.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Kernfunktionen</h3>
+          <ul class="list">
+            <li>Live-Abruf von 15 Kennzahlen von Gematik TI-Lage API</li>
+            <li>Asynchrones Laden aktueller Werte pro Kennzahl (HttpURLConnection)</li>
+            <li>Checkbox-Auswahl mit Tooltips, erste 4 Kennzahlen vorgewählt</li>
+            <li>Datumsfilter (Start/Ende) mit Date-Picker & JTable-Anzeige</li>
+            <li>CSV-Export mit Semikolon-Delimiter & deutschem Datumsformat</li>
+            <li>Self-Contained: Gebündeltes JRE (jlink) – keine Installation nötig</li>
+            <li>Dual-Mode: CLI (App.java) + GUI (GuiApp.java)</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Technologie-Stack</h3>
+          <div class="pill-row">
+            <span class="pill">Java 23 (java.base, java.desktop, java.net.http)</span>
+            <span class="pill">Swing GUI (JFrame, JTable, GridBagLayout)</span>
+            <span class="pill">org.json (JSONArray, JSONObject)</span>
+            <span class="pill">HttpURLConnection (User-Agent, Timeout 10s)</span>
+            <span class="pill">CSV Writer (BufferedWriter, DateTimeFormatter)</span>
+            <span class="pill">jpackage · jlink · run.bat Launcher</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Architektur & Ablauf</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Datenfluss</h3>
+          <pre class="architecture-diagram">
+API (JSON)
+  ↓
+HttpUtils (GET)
+  ↓
+JsonParser (org.json)
+  ↓
+GUI (Checkboxen, Werte, Datum)
+  ↓
+CSV Export
+          </pre>
+        </article>
+        <article class="card">
+          <h3 class="card__title">UX-Highlights</h3>
+          <ul class="list">
+            <li>Kompakte Zweispalten-Ansicht: Kennzahl + aktueller Wert</li>
+            <li>Tooltips für volle Kennzahl-Namen</li>
+            <li>Vorbelegte Auswahl für die wichtigsten Kennzahlen</li>
+            <li>Scrollbarer Bereich für alle 15 Kennzahlen</li>
+            <li>Klare Statusanzeigen („Lädt…“, „n/a“)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Code-Architektur & Module</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Core-Klassen</h3>
+          <ul class="list">
+            <li><strong>App.java:</strong> CLI-Anwendung (automatischer CSV-Download aller Metriken)</li>
+            <li><strong>GuiApp.java:</strong> Swing GUI mit JCheckBox[], JLabel[], JTable, DatePicker</li>
+            <li><strong>Config.java:</strong> Zentrale Konfiguration (BASE_URL, METRIC_IDS[], HEADERS[])</li>
+            <li><strong>HttpUtils.java:</strong> HTTP GET mit User-Agent, Timeout & Error Handling</li>
+            <li><strong>JsonParser.java:</strong> Multi-Format Parser (Array & Grafana Frames)</li>
+            <li><strong>CsvWriter.java:</strong> BufferedWriter mit CSV-Escaping & dd.MM.yyyy Format</li>
+            <li><strong>DateUtils.java:</strong> LocalDate Parsing & Formatierung</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">API-Integration</h3>
+          <ul class="list">
+            <li><strong>Endpoint:</strong> ti-lage.prod.ccs.gematik.solutions/api/datasources/proxy/uid/...</li>
+            <li><strong>Metrik-IDs:</strong> 1000-1026 (15 ausgewählte Kennzahlen)</li>
+            <li><strong>Format A:</strong> [{time: "...", Anzahl: 123}, ...] (JSON Array)</li>
+            <li><strong>Format B:</strong> Grafana Frames mit nested structure (Fallback)</li>
+            <li><strong>User-Agent:</strong> "Mozilla/5.0 (Java)" für API-Kompatibilität</li>
+            <li><strong>Cutoff:</strong> Nur Daten ab 22.02.2022 (CONFIG.CUTOFF)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">GUI-Details & Workflow</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Swing-Komponenten</h3>
+          <ul class="list">
+            <li><strong>GridBagLayout:</strong> Kompakte Zweispalten-Ansicht für 15 Checkboxen + Werte</li>
+            <li><strong>JLabel[] metricValueLabels:</strong> Zeigt aktuelle Werte oder "Lädt..." / "n/a"</li>
+            <li><strong>JButton fromBtn/toBtn:</strong> DatePicker für Start-/Enddatum</li>
+            <li><strong>DefaultTableModel:</strong> Dynamische Tabelle mit Datum + gewählte Metriken</li>
+            <li><strong>JScrollPane:</strong> Scrollbarer Bereich für alle Kennzahlen</li>
+            <li><strong>Tooltips:</strong> Vollständige Kennzahl-Namen bei Hover (> 34 Zeichen gekürzt)</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">User-Workflow</h3>
+          <ul class="list">
+            <li><strong>1. Start:</strong> App lädt automatisch aktuelle Werte aller 15 Metriken</li>
+            <li><strong>2. Auswahl:</strong> Checkboxen wählen (Standard: erste 4 = E-Rezepte, Med. Einrichtungen, Apotheken, App-Downloads)</li>
+            <li><strong>3. Datumsfilter:</strong> Start-/Enddatum setzen (DatePicker)</li>
+            <li><strong>4. Laden:</strong> Button klicken → API-Calls für gewählte Metriken</li>
+            <li><strong>5. Tabelle:</strong> Gefilterte Daten nach Datum sortiert in JTable</li>
+            <li><strong>6. Export:</strong> CSV-Button → historical_data.csv mit Semikolon-Delimiter</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Packaging & Auslieferung</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Self-Contained Build</h3>
+          <ul class="list">
+            <li>JAR mit eingebetteter org.json</li>
+            <li>jlink Runtime (java.base, java.desktop, java.logging, java.net.http)</li>
+            <li>Launcher-Skript `run.bat` für Windows</li>
+            <li>Optionaler jpackage-Launcher (`GuiApp.exe`)</li>
+            <li>Verteilung als 7z/zip – nur entpacken und starten</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Start für Endnutzer</h3>
+          <ol class="list">
+            <li>Archiv entpacken</li>
+            <li>`run.bat` doppelklicken (keine Java-Installation nötig)</li>
+            <li>Checkboxen wählen, Datum setzen, CSV exportieren</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Meine Rolle & Learnings</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Beitrag</h3>
+          <ul class="list">
+            <li>GUI-Design in Swing (Layout, Tooltips, Statusanzeigen)</li>
+            <li>HTTP-/JSON-Anbindung und asynchrones Laden</li>
+            <li>CSV-Export und Datumsfilter</li>
+            <li>Build & Packaging (fat JAR, jlink, jpackage)</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Learnings</h3>
+          <ul class="list">
+            <li>Stabiles Packaging ohne externe Abhängigkeiten</li>
+            <li>Performantes Laden mehrerer Kennzahlen parallel</li>
+            <li>Benutzerführung für technische Kennzahlen klar halten</li>
+            <li>Fehlerrobustheit bei API-Ausfällen („n/a“ States)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <div class="footer">
+      <a href="../index.html#projects">← Zurück zu den Projekten</a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

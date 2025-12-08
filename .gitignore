@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+server.py
+
+# Projekt-Ordner (nicht die Seiten!)
+projects/RieperLogistics/
+projects/umfragetool/
+projects/e-rezept/
+
+# System
+.DS_Store
+Thumbs.db

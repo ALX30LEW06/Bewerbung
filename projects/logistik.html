@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Rieper Logistics – Scan App | Justin Lewczuk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="projects.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__brand">Justin Lewczuk</div>
+  <nav class="site-header__nav">
+    <a href="../index.html">Über mich</a>
+    <a href="../index.html#projects">Projekte</a>
+    <a href="../index.html#contact">Kontakt</a>
+    <a href="#" class="is-active">Rieper Logistics</a>
+    <label class="theme-switch">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </nav>
+</header>
+
+<main>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <div class="hero__eyebrow">Projekt · PWA · Logistik</div>
+        <h1 class="hero__title">Rieper Logistics – Mobile Scan App</h1>
+        <p class="hero__subtitle">
+          Installierbare Web-App für die Barcode-Erfassung von Hilfsmitteln
+          mit direkter Übergabe der Tagesdaten an Node.js-Backend & Dropbox.
+        </p>
+        <div class="hero__badges">
+          <div class="badge"><span class="badge-dot"></span> Produktiv im Einsatz</div>
+          <div class="badge">PWA · offlinefähig</div>
+          <div class="badge">Node.js · Express · Dropbox API</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Projektüberblick</h2>
+      <p class="section__lead">
+        Eine Progressive Web App für die mobile Erfassung von Liefer- und Abholscheinen 
+        im Logistikbereich. Fahrer scannen Barcodes, erfassen Mengen und senden den 
+        Tagesabschluss per Knopfdruck an die Dropbox-Cloud.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Hauptfunktionen</h3>
+          <ul class="list">
+            <li>Barcode-Scanner (html5-qrcode Library)</li>
+            <li>Offline-Datenspeicherung (IndexedDB)</li>
+            <li>Mitarbeiternummer-Verwaltung (LocalStorage)</li>
+            <li>Tabellarische Übersicht aller Tageseinträge</li>
+            <li>CSV-Generierung & automatischer Append an Dropbox</li>
+            <li>Editier- & Löschfunktion für Einträge</li>
+            <li>PWA-Installation auf Smartphone möglich</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Tech-Stack</h3>
+          <div class="pill-row">
+            <span class="pill">Frontend: Vanilla JavaScript (ES6 Modules)</span>
+            <span class="pill">Backend: Node.js + Express 4</span>
+            <span class="pill">Storage: IndexedDB (offline), Dropbox API</span>
+            <span class="pill">Scanner: html5-qrcode</span>
+            <span class="pill">PWA: Service Worker + Manifest</span>
+            <span class="pill">Deployment: Netlify (Frontend) + Render (Backend)</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Code-Architektur & Module</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Frontend-Module (ES6)</h3>
+          <ul class="list">
+            <li><strong>app.js:</strong> Hauptsteuerung, Event-Handler, Formular-Logik</li>
+            <li><strong>db.js:</strong> IndexedDB-Wrapper (Add, Update, Delete, Load)</li>
+            <li><strong>scanner.js:</strong> Barcode-Scanner-Integration (html5-qrcode)</li>
+            <li><strong>csv.js:</strong> CSV-Generierung aus Einträgen</li>
+            <li><strong>utils.js:</strong> Hilfsfunktionen (Datum, Sanitize, Client-ID)</li>
+            <li><strong>service-worker.js:</strong> Offline-Caching für PWA</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Backend-Endpunkte</h3>
+          <ul class="list">
+            <li><strong>GET /:</strong> Status-Check (Backend läuft)</li>
+            <li><strong>POST /upload-append:</strong> CSV-Daten an Dropbox anhängen</li>
+            <li><strong>OAuth Flow:</strong> Dropbox Refresh Token Management</li>
+            <li><strong>CORS aktiviert:</strong> Frontend kann von anderer Domain zugreifen</li>
+            <li><strong>Token-Refresh:</strong> Automatische Access Token Erneuerung</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Workflow & Datenfluss</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Benutzer-Workflow</h3>
+          <ul class="list">
+            <li>Fahrer öffnet PWA auf Smartphone (installiert oder Browser)</li>
+            <li>Mitarbeiternummer einmalig eingeben & speichern (LocalStorage)</li>
+            <li>Barcode scannen oder manuell eingeben</li>
+            <li>Spedition auswählen (LOOSE/SANI), Artikel, Mengen erfassen</li>
+            <li>Eintrag wird lokal in IndexedDB gespeichert (offline-fähig)</li>
+            <li>Tabelle zeigt alle Einträge des Tages mit Edit/Delete-Buttons</li>
+            <li>Button "Tagesabschluss senden" → CSV wird erstellt</li>
+            <li>Backend hängt CSV an bestehende Tagesdatei in Dropbox an</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Technischer Ablauf</h3>
+          <pre class="architecture-diagram">
+Smartphone (PWA)
+  ├─ Scanner (html5-qrcode)
+  ├─ IndexedDB (offline Speicher)
+  └─ CSV-Generator
+       ↓ POST /upload-append
+Express Backend (Render)
+  ├─ OAuth Token Refresh
+  ├─ Dropbox API Client
+  └─ CSV Append Logic
+       ↓ Dropbox SDK
+Dropbox (Cloud Storage)
+  └─ /RieperLogistik/
+      └─ [YYYY-MM-DD].csv
+          </pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Besonderheiten & Lerneffekte</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Technische Highlights</h3>
+          <ul class="list">
+            <li><strong>ES6 Module:</strong> Saubere Code-Organisation mit import/export</li>
+            <li><strong>IndexedDB:</strong> Komplette offline-Funktionalität ohne Server</li>
+            <li><strong>PWA-Manifest:</strong> App ist installierbar wie native App</li>
+            <li><strong>Service Worker:</strong> Caching für schnellere Ladezeiten</li>
+            <li><strong>Dropbox OAuth:</strong> Sichere Token-Verwaltung mit Refresh-Flow</li>
+            <li><strong>CSV-Append:</strong> Datei wird erweitert statt überschrieben</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Praxis-Einsatz</h3>
+          <ul class="list">
+            <li>Produktiv im Einsatz bei Logistikpartner</li>
+            <li>Ersetzt handschriftliche Erfassung vollständig</li>
+            <li>Deutliche Zeitersparnis & weniger Fehler</li>
+            <li>Fahrer können auch ohne Internet arbeiten</li>
+            <li>Daten sind sofort für Disposition verfügbar</li>
+            <li>Keine App-Store-Genehmigung nötig (PWA)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <div class="footer">
+      <a href="../index.html#projects">← Zurück zu den Projekten</a>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="../src/main.js"></script>
+</body>
+</html>

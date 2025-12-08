@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Umfragetool – Express & MySQL | Justin Lewczuk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="projects.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__brand">Justin Lewczuk</div>
+  <nav class="site-header__nav">
+    <a href="../index.html">Über mich</a>
+    <a href="../index.html#projects">Projekte</a>
+    <a href="../index.html#contact">Kontakt</a>
+    <a href="#" class="is-active">Umfragetool</a>
+    <label class="theme-switch">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </nav>
+</header>
+
+<main>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <div class="hero__eyebrow">Web-App · Token-System · Bedingte Logik</div>
+        <h1 class="hero__title">Umfragetool – Express.js & MySQL</h1>
+        <p class="hero__subtitle">
+          Web-basiertes Umfragetool mit Token-basierter Zugriffskontrolle, bedingten Fragen und 
+          strukturierter Antwortverwaltung. Backend mit Node.js/Express, MySQL-Datenbank und 
+          Vanilla JavaScript Frontend.
+        </p>
+        <div class="hero__badges">
+          <div class="badge"><span class="badge-dot"></span> Token-System</div>
+          <div class="badge">Bedingte Fragen</div>
+          <div class="badge">Express.js · MySQL · Vanilla JS</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Projektüberblick</h2>
+      <p class="section__lead">
+        Ein flexibles Umfragetool für Unternehmen und Praxen, das sowohl anonyme als auch 
+        token-basierte Umfragen ermöglicht. Mit dynamischer Fragelogik, strukturierter Datenhaltung 
+        und einem Admin-Dashboard zur Auswertung.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Kernfunktionen</h3>
+          <ul class="list">
+            <li>Token-basierte Zugriffskontrolle mit einmaliger Nutzung</li>
+            <li>Bedingte Fragen (z.B. "zeige Frage 5 nur wenn F2=Ja")</li>
+            <li>Fragetypen: Einfachauswahl, Dropdown, Freitext</li>
+            <li>UUID-basierte Einreichungs-Verfolgung</li>
+            <li>Admin-Dashboard mit strukturierten Antworten</li>
+            <li>Link-Generator mit optionalen Tokens</li>
+            <li>E-Mail-Zuordnung für personalisierte Umfragen</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Technologie-Stack</h3>
+          <div class="pill-row">
+            <span class="pill">Backend: Node.js + Express.js 5</span>
+            <span class="pill">Datenbank: MySQL 2</span>
+            <span class="pill">Frontend: Vanilla JavaScript</span>
+            <span class="pill">API: RESTful Endpoints</span>
+            <span class="pill">Security: CORS, dotenv</span>
+            <span class="pill">UUID: crypto.randomUUID()</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Architektur & Workflow</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">System-Workflow</h3>
+          <ul class="list">
+            <li><strong>1. Token erstellen:</strong> Admin generiert Token mit E-Mail (optional)</li>
+            <li><strong>2. Link verteilen:</strong> Umfragelink mit/ohne Token an Teilnehmer senden</li>
+            <li><strong>3. Umfrage ausfüllen:</strong> Dynamische Fragen basierend auf Bedingungen</li>
+            <li><strong>4. Validierung:</strong> Token wird bei Abschluss als "genutzt" markiert</li>
+            <li><strong>5. Speicherung:</strong> Antworten mit UUID gruppiert in DB gespeichert</li>
+            <li><strong>6. Auswertung:</strong> Admin sieht strukturierte Antworten nach Einreichung</li>
+            <li><strong>7. Export:</strong> Daten können über Admin-Interface abgerufen werden</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Datenbank-Schema</h3>
+          <pre class="architecture-diagram">
+fragen
+  ├─ id (PK, INT)
+  ├─ text (VARCHAR) – Fragetext
+  ├─ type (VARCHAR) – Einfachauswahl/Dropdown/Text
+  ├─ optionen (TEXT) – JSON/Semikolon-getrennt
+  └─ anzeigebedingung (TEXT) – z.B. "F2=Ja"
+
+antworten
+  ├─ frage_id (FK → fragen)
+  ├─ gruppe_id (VARCHAR) – Token (nullable)
+  ├─ antwort (TEXT) – Nutzerantwort
+  ├─ zeitstempel (DATETIME)
+  ├─ einreichung_id (UUID) – Gruppierung
+  └─ fragebogen_id (INT) – Fragebogen-Referenz
+
+fragebogen_status
+  ├─ id (PK)
+  ├─ gruppen_token (VARCHAR, UNIQUE)
+  ├─ email (VARCHAR) – Optional
+  ├─ genutzt (BOOLEAN) – Einmal-Nutzung
+  └─ zeitpunkt (DATETIME) – Verwendungszeitpunkt
+          </pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Technische Highlights</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Backend-Features</h3>
+          <ul class="list">
+            <li><strong>RESTful API:</strong> GET/POST-Endpoints für Fragen, Antworten, Status</li>
+            <li><strong>Modular aufgebaut:</strong> Separate Routes für fragen.js, antworten.js, status.js</li>
+            <li><strong>UUID-Generierung:</strong> crypto.randomUUID() für Einreichungen & Tokens</li>
+            <li><strong>MySQL2:</strong> Prepared Statements gegen SQL-Injection</li>
+            <li><strong>CORS-Support:</strong> Cross-Origin-Requests für Frontend</li>
+            <li><strong>Error Handling:</strong> Try-catch mit 500-Fehlermeldungen</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Frontend-Features</h3>
+          <ul class="list">
+            <li><strong>Bedingte Logik:</strong> Fragen werden dynamisch ein-/ausgeblendet</li>
+            <li><strong>URL-Parameter:</strong> Token via ?token=xyz an Umfrage übergeben</li>
+            <li><strong>Fetch API:</strong> Asynchrone Kommunikation mit Backend</li>
+            <li><strong>Validierung:</strong> Pflichtfelder vor Weiter-Button</li>
+            <li><strong>Admin-Dashboard:</strong> Strukturierte Antworten mit E-Mail & Zeit</li>
+            <li><strong>Link-Generator:</strong> Automatische Token-Erstellung mit Checkbox</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Bedingte Fragelogik</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Beispiel-Syntax</h3>
+          <pre class="architecture-diagram">
+Frage 1: "Sind Sie Patient?"
+  → Optionen: Ja / Nein
+
+Frage 2: "Wie zufrieden sind Sie?"
+  → Anzeigebedingung: F1=Ja
+  → Wird nur gezeigt wenn F1 = "Ja"
+
+Frage 3: "Warum nicht zufrieden?"
+  → Anzeigebedingung: F2=Unzufrieden
+  → Wird nur bei negativer Bewertung gezeigt
+          </pre>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Implementierung</h3>
+          <ul class="list">
+            <li><strong>Parser:</strong> Regex /F(\d+)\s*=\s*(.+)/ extrahiert Bedingungen</li>
+            <li><strong>Oder-Verknüpfung:</strong> "F2=Ja oder Nein" für mehrere Werte</li>
+            <li><strong>Runtime-Check:</strong> Bei jedem "Weiter"-Klick neue Frage evaluieren</li>
+            <li><strong>Fallback:</strong> Leere Bedingung = Frage wird immer angezeigt</li>
+            <li><strong>Abschluss:</strong> Keine weiteren Fragen → API-Call zum Speichern</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">API-Endpunkte</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Fragen & Antworten</h3>
+          <ul class="list">
+            <li><strong>GET /api/fragen</strong> – Alle Fragen sortiert nach ID</li>
+            <li><strong>POST /api/antworten</strong> – Antworten speichern (mit UUID)</li>
+            <li><strong>GET /api/antworten/struktur</strong> – Gruppierte Antworten nach Einreichung</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Token-Verwaltung</h3>
+          <ul class="list">
+            <li><strong>GET /api/status</strong> – Alle Tokens mit Status abrufen</li>
+            <li><strong>GET /api/status/:token</strong> – Token-Gültigkeit prüfen</li>
+            <li><strong>POST /api/status/:token</strong> – Token als "genutzt" markieren</li>
+            <li><strong>POST /api/status</strong> – Neuen Token mit E-Mail erstellen</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Admin-Interface</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">admin.html – Antworten</h3>
+          <ul class="list">
+            <li>Zeigt alle Einreichungen gruppiert nach UUID</li>
+            <li>Tabellarische Darstellung: Frage-ID, Text, Antwort, Zeitstempel</li>
+            <li>E-Mail-Zuordnung aus Token-System</li>
+            <li>Automatisches Laden via Fetch API</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">token_admin.html – Token-Verwaltung</h3>
+          <ul class="list">
+            <li>Neue Tokens erstellen (mit/ohne E-Mail)</li>
+            <li>Übersicht: Token, E-Mail, Verwendet (✅/❌), Zeitpunkt</li>
+            <li>Automatische Refresh nach Token-Erstellung</li>
+            <li>Validierung gegen Doppelvergabe</li>
+          </ul>
+        </article>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">verteilen.html – Link-Generator</h3>
+          <ul class="list">
+            <li>E-Mail-Eingabe für personalisierten Link</li>
+            <li>Checkbox: Token-Pflicht aktivieren/deaktivieren</li>
+            <li>Automatische UUID-Generierung für Tokens</li>
+            <li>Fertiger Link zum Kopieren: http://localhost:3000/umfrage.html?token=xyz</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Sicherheit & Best Practices</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Sicherheitsmaßnahmen</h3>
+          <ul class="list">
+            <li><strong>Token-Einmalnutzung:</strong> genutzt-Flag verhindert Mehrfachausfüllen</li>
+            <li><strong>SQL-Injection-Schutz:</strong> Prepared Statements mit mysql2</li>
+            <li><strong>CORS-Policy:</strong> Kontrollierter Cross-Origin-Zugriff</li>
+            <li><strong>dotenv:</strong> Sensible Daten in .env (nicht im Git)</li>
+            <li><strong>Error Handling:</strong> Keine Datenbank-Details in Fehlerausgaben</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Code-Qualität</h3>
+          <ul class="list">
+            <li><strong>Modularer Aufbau:</strong> Trennung von Routes, DB-Layer, Server</li>
+            <li><strong>RESTful-Prinzipien:</strong> GET/POST mit korrekten Status-Codes</li>
+            <li><strong>Kommentare:</strong> Deutsche Inline-Dokumentation</li>
+            <li><strong>Fehlerbehandlung:</strong> Try-catch in allen DB-Queries</li>
+            <li><strong>Versionskontrolle:</strong> Git-Ready (mit .env in .gitignore)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Deployment & Verwendung</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 class="card__title">Setup-Schritte</h3>
+          <ul class="list">
+            <li><strong>1. Dependencies:</strong> npm install (Express, MySQL2, CORS, dotenv)</li>
+            <li><strong>2. Datenbank:</strong> MySQL-Server mit umfragetool-DB erstellen</li>
+            <li><strong>3. Tabellen:</strong> SQL-Script für fragen, antworten, fragebogen_status</li>
+            <li><strong>4. .env:</strong> Datenbankzugangsdaten & PORT konfigurieren</li>
+            <li><strong>5. Server starten:</strong> node app.js (läuft auf Port 3000)</li>
+            <li><strong>6. Browser:</strong> http://localhost:3000/umfrage.html öffnen</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Anwendungsfälle</h3>
+          <ul class="list">
+            <li><strong>Patientenbefragungen:</strong> Praxen mit personalisierten Tokens</li>
+            <li><strong>Mitarbeiterfeedback:</strong> Anonyme Umfragen ohne Token</li>
+            <li><strong>Event-Feedback:</strong> Token-Links per E-Mail nach Veranstaltung</li>
+            <li><strong>Kundenzufriedenheit:</strong> Bedingte Fragen für detailliertes Feedback</li>
+            <li><strong>Interne Abstimmungen:</strong> Schnelle Umfragen mit E-Mail-Tracking</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <div class="footer">
+      <a href="../index.html#projects">← Zurück zu den Projekten</a>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="../src/main.js"></script>
+</body>
+</html>
