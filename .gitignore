@@ -3,6 +3,10 @@ __pycache__/
 *.pyc
 server.py
 
+# PDF-Generierungs-Dateien (privat)
+lebenslauf-pdf.html
+lebenslauf-print.html
+
 # Projekt-Ordner (nicht die Seiten!)
 projects/RieperLogistics/
 projects/umfragetool/
