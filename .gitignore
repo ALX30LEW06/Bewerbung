@@ -6,6 +6,7 @@ server.py
 # PDF-Generierungs-Dateien (privat)
 lebenslauf-pdf.html
 lebenslauf-print.html
+lebenslauf-final.html
 
 # Projekt-Ordner (nicht die Seiten!)
 projects/RieperLogistics/
